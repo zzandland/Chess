@@ -1,10 +1,16 @@
 import piece.Pawn;
+import piece.Piece;
 
 public class Game {
 
   public static void main(String args[]) {
-    Pawn pawn = new Pawn(0, 0);
-    System.out.println(pawn.getRole());
+    Pawn pawn = new Pawn('W', "A2");
+    int origin = Piece.generateIntCoord(pawn.getCoord());
+    System.out.println(origin);
+    System.out.println(Piece.getMap().get(origin));
+    System.out.println(pawn.move("A3"));
+    System.out.println(Piece.getMap().get(10));
+    System.out.println(Piece.getMap().get(20));
   }
 }
 
@@ -13,9 +19,9 @@ class Player {
 }
 
 class Board {
-  private char[][] board;
+  private String board[][];
 
   public Board() {
-    board = new char[8][8];
+    board = new String[8][8];
   }
 }

@@ -1,23 +1,29 @@
 package piece;
 
 public class Pawn extends Piece implements canMove {
-  public Pawn(int y, int x) {
-    super('P', y, x);
+  public Pawn(char side, String AN) {
+    super(side, 'P', AN);
   }
 
-  public boolean move(int[] reqPos) {
-    if (moveLogic(reqPos)) {
-      setCoord(reqPos[0], reqPos[1]);
+  public boolean move(String requestedAN) {
+    int requestedCoord[] = ANtoCoords(requestedAN);
+
+    if (moveLogic(requestedCoord)) {
+      Piece.getMap().remove(generateIntCoord(getCoord()));
+      setCoord(requestedCoord[0], requestedCoord[1]);
+      Piece.getMap().put(generateIntCoord(requestedCoord), this);
       return true;
-    } else {
-      System.out.println("Cannot move to ");
-      return false;
     }
+    return false;
   }
 
-  private boolean moveLogic(int[] reqPos) {
-    int orgPos[] = getCoord();
-    if (reqPos[0] == orgPos[0] + 1 && reqPos[0] == orgPos[0]) return true;
-    else return false;
+  private boolean moveLogic(int requestedCoord[]) {
+    int originalCoord[] = getCoord();
+
+    return requestedCoord[0] == originalCoord[0] + 1 && requestedCoord[1] == originalCoord[1];
+  }
+
+  private boolean attackLogic(int requestedCoord[], String board[][]) {
+    return true;
   }
 }
