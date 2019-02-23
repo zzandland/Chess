@@ -3,7 +3,23 @@ import piece.*;
 public class Board {
   private static Piece board[][] = new Piece[8][8];
 
-  public static Piece[][] getBoard() { return board; }
+  public static void printBoard() { 
+    for (Piece row[] : board) {
+      System.out.println("||==|==|==|==|==|==|==|==||");
+      System.out.print("||");
+      for (Piece piece : row) {
+        if (piece != null) {
+          String name = "" + piece.getSide() + piece.getRole();
+          System.out.print(name);
+        } else {
+          System.out.print("  ");
+        }
+        System.out.print('|');
+      }
+      System.out.println('|');
+    }
+    System.out.println("||==|==|==|==|==|==|==|==||\n");
+  }
 
   public static void placePiece(char side, char role, String AN) {
     int coord[] = ANtoCoords(AN); 
@@ -21,6 +37,8 @@ public class Board {
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
 
+    if (target == null) return false;
+
     if (isValidPlayer(side, target) && isValidMove(fromCoord, toCoord, target)) {
       board[fromCoord[0]][fromCoord[1]] = null;
       board[toCoord[0]][toCoord[1]] = target;
@@ -29,7 +47,7 @@ public class Board {
     return false;
   }
 
-  public static boolean isValidMove(int fromCoord[], int toCoord[], Piece target) {
+  private static boolean isValidMove(int fromCoord[], int toCoord[], Piece target) {
     return target.moveLogic(fromCoord, toCoord);
   }
 
