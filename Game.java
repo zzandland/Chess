@@ -1,13 +1,23 @@
 public class Game {
-  public static void main(String args[]) {
+  public static void initGame() {
     Player player1 = new Player("David", 'W');
-    Board.placePiece('W', 'P', "A1");
-    Board.printBoard();
+    Player player2 = new Player("Sarah", 'B');
+    Board.initBoard();    
 
-    player1.movePiece("A1", "A2");
     Board.printBoard();
+    Board.movePiece('B', "B7", "B6");
+    Board.printBoard();
+    Board.movePiece('B', "B6", "B5");
+    Board.printBoard();
+    Board.movePiece('B', "B5", "B4");
+    Board.printBoard();
+    Board.movePiece('B', "B4", "B3");
+    Board.printBoard();
+    Board.movePiece('B', "B3", "C2");
+    Board.printBoard();
+  }
 
-    player1.movePiece("A2", "A3");
-    Board.printBoard();
+  public static void main(String args[]) {
+    initGame();
   }
 }

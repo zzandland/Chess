@@ -13,5 +13,5 @@ public abstract class Piece {
 
   public char getRole() { return role; }
 
-  public abstract boolean moveLogic(int orgCoord[], int reqCoord[]);
+  public abstract boolean moveLogic(int fromCoord[], int toCoord[], Piece board[][]);
 }

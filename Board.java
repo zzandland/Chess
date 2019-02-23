@@ -4,21 +4,36 @@ public class Board {
   private static Piece board[][] = new Piece[8][8];
 
   public static void printBoard() { 
-    for (Piece row[] : board) {
-      System.out.println("||==|==|==|==|==|==|==|==||");
-      System.out.print("||");
-      for (Piece piece : row) {
+    System.out.println("       A      B      C      D      E      F      G      H");
+    System.out.println("\n  ||======|======|======|======|======|======|======|======||\n");
+    for (int i = board.length - 1; i >= 0; i--) {
+      System.out.print(i + 1 + " ||");
+      for (Piece piece : board[i]) {
         if (piece != null) {
           String name = "" + piece.getSide() + piece.getRole();
-          System.out.print(name);
+          System.out.print(String.format("  %s  ", name));
         } else {
-          System.out.print("  ");
+          System.out.print("      ");
         }
         System.out.print('|');
       }
       System.out.println('|');
+      System.out.println("\n  ||======|======|======|======|======|======|======|======||\n");
     }
-    System.out.println("||==|==|==|==|==|==|==|==||\n");
+    System.out.println("\n\n");
+  }
+
+  public static void initBoard() {
+    board = new Piece[8][8];
+    initPawn();
+  }
+
+  public static void initPawn() {
+    for (int i = 65; i < 73; i++) {
+      char ranks = (char) i;
+      placePiece('W', 'P', ranks + "2");
+      placePiece('B', 'P', ranks + "7");
+    }
   }
 
   public static void placePiece(char side, char role, String AN) {
@@ -37,7 +52,11 @@ public class Board {
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
 
+    // if the position is empty invalid move
     if (target == null) return false;
+
+    // if the toCoord is out of index boundary invalid move
+    if (toCoord[0] > 7 || toCoord[0] < 0 || toCoord[1] > 7 || toCoord[1] < 0) return false;
 
     if (isValidPlayer(side, target) && isValidMove(fromCoord, toCoord, target)) {
       board[fromCoord[0]][fromCoord[1]] = null;
@@ -48,11 +67,17 @@ public class Board {
   }
 
   private static boolean isValidMove(int fromCoord[], int toCoord[], Piece target) {
-    return target.moveLogic(fromCoord, toCoord);
+    if (target.moveLogic(fromCoord, toCoord, board)) {
+      return true;
+    } 
+    System.out.println("Invalid move. Please try again.\n");
+    return false;
   }
 
   private static boolean isValidPlayer(char side, Piece target) {
-    return target.getSide() == side;
+    if (target.getSide() == side) return true;
+    System.out.println("That is not your piece. Please try again.\n");
+    return false;
   }
 
   private static int[] ANtoCoords(String AN) {
@@ -62,5 +87,4 @@ public class Board {
     int coord[] = {ranks, files};
     return coord;
   }
-
 }
