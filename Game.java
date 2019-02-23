@@ -2,15 +2,12 @@ import piece.Pawn;
 import piece.Piece;
 
 public class Game {
-
   public static void main(String args[]) {
-    Pawn pawn = new Pawn('W', "A2");
-    int origin = Piece.generateIntCoord(pawn.getCoord());
-    System.out.println(origin);
-    System.out.println(Piece.getMap().get(origin));
-    System.out.println(pawn.move("A3"));
-    System.out.println(Piece.getMap().get(10));
-    System.out.println(Piece.getMap().get(20));
+    Board board = new Board();
+    board.placePiece('W', 'P', "A2");
+    System.out.println(board.getBoard()[0][0]);
+    System.out.println(board.getBoard()[1][0]);
+    System.out.println(board.getBoard()[0][1]);
   }
 }
 
@@ -19,9 +16,27 @@ class Player {
 }
 
 class Board {
-  private String board[][];
+  private Piece board[][] = new Piece[8][8];
 
-  public Board() {
-    board = new String[8][8];
+  public Piece[][] getBoard() { return board; }
+
+  public void placePiece(char side, char role, String AN) {
+    int coord[] = ANtoCoords(AN); 
+
+    switch (role) {
+      case 'P':
+        Pawn piece = new Pawn(side);
+        board[coord[0]][coord[1]] = piece;
+        break;
+    }
   }
+
+  private static int[] ANtoCoords(String AN) {
+    char chars[] = AN.toCharArray();
+    int ranks = Integer.parseInt(String.valueOf(chars[1])) - 1;
+    int files = Character.toLowerCase(chars[0]) - 'a';
+    int coord[] = {ranks, files};
+    return coord;
+  }
+
 }
