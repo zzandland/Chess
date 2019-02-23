@@ -26,6 +26,8 @@ public class Board {
   public static void initBoard() {
     board = new Piece[8][8];
     initPawn();
+    placePiece('W', 'K', "D1");
+    placePiece('B', 'K', "D8");
   }
 
   public static void initPawn() {
@@ -41,8 +43,12 @@ public class Board {
 
     switch (role) {
       case 'P':
-        Pawn piece = new Pawn(side);
-        board[coord[0]][coord[1]] = piece;
+        Pawn pawn = new Pawn(side);
+        board[coord[0]][coord[1]] = pawn;
+        break;
+      case 'K':
+        King king = new King(side);
+        board[coord[0]][coord[1]] = king;
         break;
     }
   }
