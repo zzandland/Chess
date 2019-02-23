@@ -5,11 +5,7 @@ public class Pawn extends Piece {
     super(side, 'P');
   }
 
-  public boolean moveLogic(int orgCoord[], int reqCoord[]) {
-    return reqCoord[0] == orgCoord[0] + 1 && reqCoord[1] == orgCoord[1];
-  }
-
-  private boolean attackLogic(int requestedCoord[], String board[][]) {
-    return true;
+  public boolean moveLogic(int fromCoord[], int toCoord[]) {
+    return toCoord[0] == fromCoord[0] + 1 && toCoord[1] == fromCoord[1];
   }
 }
