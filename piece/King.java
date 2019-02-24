@@ -5,7 +5,11 @@ public class King extends Piece {
 
   public boolean moveLogic(int fromCoord[], int toCoord[], Piece board[][]) {
     return 
-      board[toCoord[0]][toCoord[1]] == null || board[toCoord[0]][toCoord[1]].getSide() != getSide()
+      (
+        board[toCoord[0]][toCoord[1]] == null 
+        || 
+        board[toCoord[0]][toCoord[1]].getSide() != getSide()
+      )
       &&
       (
         fromCoord[0] == toCoord[0] 

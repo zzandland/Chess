@@ -3,6 +3,7 @@ public class Game {
     Player player1 = new Player("David", 'W');
     Player player2 = new Player("Sarah", 'B');
     Board.initBoard();    
+    Board.printBoard();
   }
 
   public static void main(String args[]) {

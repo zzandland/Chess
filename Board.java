@@ -28,6 +28,12 @@ public class Board {
     initPawn();
     placePiece('W', 'K', "D1");
     placePiece('B', 'K', "D8");
+    placePiece('W', 'T', "A1");
+    placePiece('W', 'T', "H1");
+    placePiece('B', 'T', "A8");
+    placePiece('B', 'T', "H8");
+
+    placePiece('W', 'T', "D4");
   }
 
   public static void initPawn() {
@@ -50,6 +56,10 @@ public class Board {
         King king = new King(side);
         board[coord[0]][coord[1]] = king;
         break;
+      case 'T':
+        Tower tower = new Tower(side);
+        board[coord[0]][coord[1]] = tower;
+        break;
     }
   }
 
@@ -58,8 +68,8 @@ public class Board {
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
 
-    // if the position is empty invalid move
-    if (target == null) return false;
+    // the selected AN cannot be empty nor same to desired AN
+    if (target == null || fromAN.equals(toAN)) return false;
 
     // if the toCoord is out of index boundary invalid move
     if (toCoord[0] > 7 || toCoord[0] < 0 || toCoord[1] > 7 || toCoord[1] < 0) return false;
