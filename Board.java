@@ -28,12 +28,16 @@ public class Board {
     initPawn();
     placePiece('W', 'K', "D1");
     placePiece('B', 'K', "D8");
+    placePiece('W', 'Q', "E1");
+    placePiece('B', 'Q', "E8");
     placePiece('W', 'T', "A1");
     placePiece('W', 'T', "H1");
     placePiece('B', 'T', "A8");
     placePiece('B', 'T', "H8");
-
-    placePiece('W', 'T', "D4");
+    placePiece('W', 'B', "C1");
+    placePiece('W', 'B', "F1");
+    placePiece('B', 'B', "C8");
+    placePiece('B', 'B', "F8");
   }
 
   public static void initPawn() {
@@ -56,9 +60,17 @@ public class Board {
         King king = new King(side);
         board[coord[0]][coord[1]] = king;
         break;
+      case 'Q':
+        Queen queen = new Queen(side);
+        board[coord[0]][coord[1]] = queen;
+        break;
       case 'T':
         Tower tower = new Tower(side);
         board[coord[0]][coord[1]] = tower;
+        break;
+      case 'B':
+        Bishop bishop = new Bishop(side);
+        board[coord[0]][coord[1]] = bishop;
         break;
     }
   }

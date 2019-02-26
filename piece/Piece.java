@@ -26,6 +26,13 @@ public abstract class Piece {
     return false;
   }
 
+  protected boolean diagonalDashLogic(int fromCoord[], int toCoord[], Piece board[][]) {
+    return checkDiagDirection("NW", fromCoord, toCoord, board)
+      || checkDiagDirection("NE", fromCoord, toCoord, board)
+      || checkDiagDirection("SW", fromCoord, toCoord, board)
+      || checkDiagDirection("SE", fromCoord, toCoord, board);
+  }
+
   private int[] getHorLimit(int fromCoord[], Piece board[][]) {
     int left = 0;
     int right = board[0].length;
@@ -64,4 +71,52 @@ public abstract class Piece {
     return pair;
   }
 
+  private boolean checkDiagDirection(String direction, int fromCoord[], int toCoord[], Piece board[][]) {
+    int i = 1;
+    int yOffset, xOffset;
+    boolean loopContinue;
+
+    while (true) {
+      switch (direction) {
+        case "NW":
+          yOffset = fromCoord[0] - i;
+          xOffset = fromCoord[1] - i;
+          loopContinue = yOffset >= 0 && xOffset  >= 0;
+          break;
+        case "NE":
+          yOffset = fromCoord[0] - i;
+          xOffset = fromCoord[1] + i;
+          loopContinue = yOffset >= 0 && xOffset < board.length;
+          break;
+        case "SW":
+          yOffset = fromCoord[0] + i;
+          xOffset = fromCoord[1] - i;
+          loopContinue = yOffset < board.length && xOffset >= 0;
+          break;
+        case "SE":
+          yOffset = fromCoord[0] + i;
+          xOffset = fromCoord[1] + i;
+          loopContinue = yOffset < board.length && xOffset < board.length;
+          break;
+        default:
+          yOffset = fromCoord[0];
+          xOffset = fromCoord[1];
+          loopContinue = false;
+      }
+
+      if (!loopContinue) break;
+
+      if (yOffset == toCoord[0] && xOffset == toCoord[1]) {
+        if (board[yOffset][xOffset] == null || board[yOffset][xOffset].getSide() != getSide()) return true;
+        return false;
+      }
+
+      if (board[yOffset][xOffset] != null) {
+        return false;
+      }
+
+      i++;
+    }
+    return false;
+  }
 }
