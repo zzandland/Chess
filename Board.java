@@ -10,8 +10,7 @@ public class Board {
       System.out.print(i + 1 + " ||");
       for (Piece piece : board[i]) {
         if (piece != null) {
-          String name = "" + piece.getSide() + piece.getRole();
-          System.out.print(String.format("  %s  ", name));
+          System.out.print(String.format("  %c   ", getSymbol(piece)));
         } else {
           System.out.print("      ");
         }
@@ -30,14 +29,18 @@ public class Board {
     placePiece('B', 'K', "D8");
     placePiece('W', 'Q', "E1");
     placePiece('B', 'Q', "E8");
-    placePiece('W', 'T', "A1");
-    placePiece('W', 'T', "H1");
-    placePiece('B', 'T', "A8");
-    placePiece('B', 'T', "H8");
+    placePiece('W', 'R', "A1");
+    placePiece('W', 'R', "H1");
+    placePiece('B', 'R', "A8");
+    placePiece('B', 'R', "H8");
     placePiece('W', 'B', "C1");
     placePiece('W', 'B', "F1");
     placePiece('B', 'B', "C8");
     placePiece('B', 'B', "F8");
+    placePiece('W', 'H', "B1");
+    placePiece('W', 'H', "G1");
+    placePiece('B', 'H', "B8");
+    placePiece('B', 'H', "G8");
   }
 
   public static void initPawn() {
@@ -52,10 +55,6 @@ public class Board {
     int coord[] = ANtoCoords(AN); 
 
     switch (role) {
-      case 'P':
-        Pawn pawn = new Pawn(side);
-        board[coord[0]][coord[1]] = pawn;
-        break;
       case 'K':
         King king = new King(side);
         board[coord[0]][coord[1]] = king;
@@ -64,13 +63,21 @@ public class Board {
         Queen queen = new Queen(side);
         board[coord[0]][coord[1]] = queen;
         break;
-      case 'T':
-        Tower tower = new Tower(side);
-        board[coord[0]][coord[1]] = tower;
+      case 'R':
+        Rook rook = new Rook(side);
+        board[coord[0]][coord[1]] = rook;
         break;
       case 'B':
         Bishop bishop = new Bishop(side);
         board[coord[0]][coord[1]] = bishop;
+        break;
+      case 'H':
+        Knight knight = new Knight(side);
+        board[coord[0]][coord[1]] = knight;
+        break;
+      case 'P':
+        Pawn pawn = new Pawn(side);
+        board[coord[0]][coord[1]] = pawn;
         break;
     }
   }
@@ -92,6 +99,30 @@ public class Board {
       return true;
     } 
     return false;
+  }
+
+  private static char getSymbol(Piece piece) {
+    char symbol = ' ';
+    if (piece.getSide() == 'W') {
+      switch (piece.getRole()) {
+        case 'K': symbol = '♔'; break;
+        case 'Q': symbol = '♕'; break;
+        case 'R': symbol = '♖'; break;
+        case 'B': symbol = '♗'; break;
+        case 'H': symbol = '♘'; break;
+        case 'P': symbol = '♙'; break;
+      }
+    } else {
+      switch (piece.getRole()) {
+        case 'K': symbol = '♚'; break;
+        case 'Q': symbol = '♛'; break;
+        case 'R': symbol = '♜'; break;
+        case 'B': symbol = '♝'; break;
+        case 'H': symbol = '♞'; break;
+        case 'P': symbol = '♟'; break;
+      }          
+    }
+    return symbol;
   }
 
   private static boolean isValidMove(int fromCoord[], int toCoord[], Piece target) {

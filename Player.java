@@ -10,7 +10,9 @@ public class Player {
     this.side = side;
   }
 
-  public void movePiece(String fromAN, String toAN) {
-    if (!Board.movePiece(side, fromAN, toAN)) System.out.println("Invalid move. Please try again");
+  public String getName() { return name; }
+
+  public boolean movePiece(String fromAN, String toAN) {
+    return Board.movePiece(side, fromAN, toAN);
   }
 }
