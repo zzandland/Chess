@@ -9,7 +9,8 @@ public class Game {
   public static void initGame() throws IOException {
     setPlayerNames();
     Board.initBoard();    
-    Board.printBoard();
+    player1.setKingPos("D1");
+    player2.setKingPos("D8");
 
     while (!gameOver) {
       takeTurn();
@@ -27,12 +28,22 @@ public class Game {
   }
 
   private static void takeTurn() throws IOException {
-    Player currentPlayer;
-    String sideName;
-    if (whiteTurn) currentPlayer = player1;
-    else currentPlayer = player2;
+    Board.printBoard();
 
-    System.out.println(String.format("It is %s's turn now.", currentPlayer.getName()));
+    Player current, opponent;
+    String sideName;
+    if (whiteTurn) {
+      current = player1;
+      opponent = player2;
+    } else {
+      current = player2;
+      opponent = player1;
+    } 
+
+    System.out.println("current: " + player1.getKingPos());
+    System.out.println("opponent: " + player2.getKingPos());
+
+    System.out.println(String.format("It is %s's turn now.", current.getName()));
 
     BufferedReader br = Input.generateBR(System.in);
 
@@ -42,11 +53,17 @@ public class Game {
     System.out.println("Type the algebraic algebraic notation of the destination and press return: ");
     String toAN = br.readLine();
 
-    if (!currentPlayer.movePiece(fromAN, toAN)) {
+    if (!current.movePiece(fromAN, toAN)) {
       takeTurn();
     } else {
-      Board.printBoard();
+      if (isCheck(toAN, opponent.getKingPos()))
+        System.out.println("Check on " + opponent.getName() + "'s King.");
+
       whiteTurn = !whiteTurn;  
     }
+  }
+
+  private static boolean isCheck(String movedAN, String enemyKingAN) {
+    return Board.isCheck(movedAN, enemyKingAN);
   }
 }

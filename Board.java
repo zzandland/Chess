@@ -101,6 +101,14 @@ public class Board {
     return false;
   }
 
+  public static boolean isCheck(String movedAN, String kingAN) {
+    int movedCoord[] = ANtoCoords(movedAN);
+    int kingCoord[] = ANtoCoords(kingAN);
+
+    Piece piece =  board[movedCoord[0]][movedCoord[1]];
+    return isValidMove(movedCoord, kingCoord, piece);
+  }
+
   private static char getSymbol(Piece piece) {
     char symbol = ' ';
     if (piece.getSide() == 'W') {
