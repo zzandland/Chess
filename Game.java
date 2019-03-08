@@ -40,9 +40,6 @@ public class Game {
       opponent = player1;
     } 
 
-    System.out.println("current: " + player1.getKingPos());
-    System.out.println("opponent: " + player2.getKingPos());
-
     System.out.println(String.format("It is %s's turn now.", current.getName()));
 
     BufferedReader br = Input.generateBR(System.in);

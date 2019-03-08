@@ -82,23 +82,24 @@ public class Board {
     }
   }
 
-  public static boolean movePiece(char side, String fromAN, String toAN) {
+  public static char movePiece(char side, String fromAN, String toAN) {
     int fromCoord[] = ANtoCoords(fromAN);
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
 
     // the selected AN cannot be empty nor same to desired AN
-    if (target == null || fromAN.equals(toAN)) return false;
+    if (target == null || fromAN.equals(toAN)) return 'N';
 
     // if the toCoord is out of index boundary invalid move
-    if (toCoord[0] > 7 || toCoord[0] < 0 || toCoord[1] > 7 || toCoord[1] < 0) return false;
+    if (toCoord[0] > 7 || toCoord[0] < 0 || toCoord[1] > 7 || toCoord[1] < 0) return 'N';
 
     if (isValidPlayer(side, target) && isValidMove(fromCoord, toCoord, target)) {
       board[fromCoord[0]][fromCoord[1]] = null;
       board[toCoord[0]][toCoord[1]] = target;
-      return true;
+      if (target.getRole() == 'K') return 'K';
+      return 'Y';
     } 
-    return false;
+    return 'N';
   }
 
   public static boolean isCheck(String movedAN, String kingAN) {
@@ -107,6 +108,12 @@ public class Board {
 
     Piece piece =  board[movedCoord[0]][movedCoord[1]];
     return isValidMove(movedCoord, kingCoord, piece);
+  }
+
+  public static boolean isCheckMated(String kingAN) {
+    int kingCoord[] = ANtoCoords(kingAN);
+    Piece king = board[kingCoord[0]][kingCoord[1]];
+    return true;
   }
 
   private static char getSymbol(Piece piece) {
