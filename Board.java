@@ -51,7 +51,10 @@ public class Board {
     }
   }
 
-  public static void placePiece(char side, char role, String AN) {
+  public static void placePiece(char side, 
+                                char role, 
+                                String AN) 
+  {
     int coord[] = ANtoCoords(AN); 
 
     switch (role) {
@@ -82,7 +85,10 @@ public class Board {
     }
   }
 
-  public static char movePiece(char side, String fromAN, String toAN) {
+  public static char movePiece(char side, 
+                               String fromAN, 
+                               String toAN) 
+  {
     int fromCoord[] = ANtoCoords(fromAN);
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
@@ -91,9 +97,14 @@ public class Board {
     if (target == null || fromAN.equals(toAN)) return 'N';
 
     // if the toCoord is out of index boundary invalid move
-    if (toCoord[0] > 7 || toCoord[0] < 0 || toCoord[1] > 7 || toCoord[1] < 0) return 'N';
+    if (toCoord[0] > 7 
+      || toCoord[0] < 0 
+      || toCoord[1] > 7 
+      || toCoord[1] < 0) return 'N';
 
-    if (isValidPlayer(side, target) && isValidMove(fromCoord, toCoord, target)) {
+    if (isValidPlayer(side, target) 
+      && isValidMove(fromCoord, toCoord, target)) 
+    {
       board[fromCoord[0]][fromCoord[1]] = null;
       board[toCoord[0]][toCoord[1]] = target;
       if (target.getRole() == 'K') return 'K';
@@ -140,7 +151,10 @@ public class Board {
     return symbol;
   }
 
-  private static boolean isValidMove(int fromCoord[], int toCoord[], Piece target) {
+  private static boolean isValidMove(int fromCoord[], 
+                                     int toCoord[], 
+                                     Piece target) 
+  {
     if (target.moveLogic(fromCoord, toCoord, board)) {
       return true;
     } 
