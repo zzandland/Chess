@@ -3,7 +3,7 @@ import piece.*;
 public class Board {
   private static Piece board[][] = new Piece[8][8];
 
-  public static void printBoard() { 
+  public static void printBoard() {
     System.out.println("       A      B      C      D      E      F      G      H");
     System.out.println("\n  ||======|======|======|======|======|======|======|======||\n");
     for (int i = board.length - 1; i >= 0; i--) {
@@ -51,11 +51,8 @@ public class Board {
     }
   }
 
-  public static void placePiece(char side, 
-                                char role, 
-                                String AN) 
-  {
-    int coord[] = ANtoCoords(AN); 
+  public static void placePiece(char side, char role, String AN) {
+    int coord[] = ANtoCoords(AN);
 
     switch (role) {
       case 'K':
@@ -85,10 +82,7 @@ public class Board {
     }
   }
 
-  public static char movePiece(char side, 
-                               String fromAN, 
-                               String toAN) 
-  {
+  public static char movePiece(char side, String fromAN, String toAN) {
     int fromCoord[] = ANtoCoords(fromAN);
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
@@ -97,19 +91,14 @@ public class Board {
     if (target == null || fromAN.equals(toAN)) return 'N';
 
     // if the toCoord is out of index boundary invalid move
-    if (toCoord[0] > 7 
-      || toCoord[0] < 0 
-      || toCoord[1] > 7 
-      || toCoord[1] < 0) return 'N';
+    if (toCoord[0] > 7 || toCoord[0] < 0 || toCoord[1] > 7 || toCoord[1] < 0) return 'N';
 
-    if (isValidPlayer(side, target) 
-      && isValidMove(fromCoord, toCoord, target)) 
-    {
+    if (isValidPlayer(side, target) && isValidMove(fromCoord, toCoord, target)) {
       board[fromCoord[0]][fromCoord[1]] = null;
       board[toCoord[0]][toCoord[1]] = target;
       if (target.getRole() == 'K') return 'K';
       return 'Y';
-    } 
+    }
     return 'N';
   }
 
@@ -117,7 +106,7 @@ public class Board {
     int movedCoord[] = ANtoCoords(movedAN);
     int kingCoord[] = ANtoCoords(kingAN);
 
-    Piece piece =  board[movedCoord[0]][movedCoord[1]];
+    Piece piece = board[movedCoord[0]][movedCoord[1]];
     return isValidMove(movedCoord, kingCoord, piece);
   }
 
@@ -131,33 +120,54 @@ public class Board {
     char symbol = ' ';
     if (piece.getSide() == 'W') {
       switch (piece.getRole()) {
-        case 'K': symbol = '♔'; break;
-        case 'Q': symbol = '♕'; break;
-        case 'R': symbol = '♖'; break;
-        case 'B': symbol = '♗'; break;
-        case 'H': symbol = '♘'; break;
-        case 'P': symbol = '♙'; break;
+        case 'K':
+          symbol = '♔';
+          break;
+        case 'Q':
+          symbol = '♕';
+          break;
+        case 'R':
+          symbol = '♖';
+          break;
+        case 'B':
+          symbol = '♗';
+          break;
+        case 'H':
+          symbol = '♘';
+          break;
+        case 'P':
+          symbol = '♙';
+          break;
       }
     } else {
       switch (piece.getRole()) {
-        case 'K': symbol = '♚'; break;
-        case 'Q': symbol = '♛'; break;
-        case 'R': symbol = '♜'; break;
-        case 'B': symbol = '♝'; break;
-        case 'H': symbol = '♞'; break;
-        case 'P': symbol = '♟'; break;
-      }          
+        case 'K':
+          symbol = '♚';
+          break;
+        case 'Q':
+          symbol = '♛';
+          break;
+        case 'R':
+          symbol = '♜';
+          break;
+        case 'B':
+          symbol = '♝';
+          break;
+        case 'H':
+          symbol = '♞';
+          break;
+        case 'P':
+          symbol = '♟';
+          break;
+      }
     }
     return symbol;
   }
 
-  private static boolean isValidMove(int fromCoord[], 
-                                     int toCoord[], 
-                                     Piece target) 
-  {
+  private static boolean isValidMove(int fromCoord[], int toCoord[], Piece target) {
     if (target.moveLogic(fromCoord, toCoord, board)) {
       return true;
-    } 
+    }
     System.out.println("Invalid move. Please try again.\n");
     return false;
   }

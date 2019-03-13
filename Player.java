@@ -11,7 +11,9 @@ public class Player {
     this.side = side;
   }
 
-  public String getName() { return name; }
+  public String getName() {
+    return name;
+  }
 
   public String getKingPos() {
     return kingPos;

@@ -1,0 +1,83 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/45968eff/
+ANtoCoords	Board.java	/^  private static int[] ANtoCoords(String AN) {$/;"	m	class:Board	file:
+Bishop	piece/Bishop.java	/^  public Bishop(char side) { super(side, 'B'); }$/;"	m	class:Bishop
+Bishop	piece/Bishop.java	/^public class Bishop extends Piece {$/;"	c
+Board	Board.java	/^public class Board {$/;"	c
+Chess	README.md	/^# Chess$/;"	c
+Game	Game.java	/^public class Game {$/;"	c
+Input	Input.java	/^public class Input {$/;"	c
+King	piece/King.java	/^  public King(char side) { super(side, 'K'); }$/;"	m	class:King
+King	piece/King.java	/^public class King extends Piece {$/;"	c
+Knight	piece/Knight.java	/^  public Knight(char side) { super(side, 'H'); }$/;"	m	class:Knight
+Knight	piece/Knight.java	/^public class Knight extends Piece {$/;"	c
+Main	Main.java	/^public class Main {$/;"	c
+Pawn	piece/Pawn.java	/^  public Pawn(char side) { super(side, 'P'); }$/;"	m	class:Pawn
+Pawn	piece/Pawn.java	/^public class Pawn extends Piece {$/;"	c
+Piece	piece/Piece.java	/^  public Piece(char side, char role) {$/;"	m	class:Piece
+Piece	piece/Piece.java	/^public abstract class Piece {$/;"	c
+Player	Player.java	/^  public Player(String name, char side) {$/;"	m	class:Player
+Player	Player.java	/^public class Player {$/;"	c
+Queen	piece/Queen.java	/^  public Queen(char side) { super(side, 'Q'); }$/;"	m	class:Queen
+Queen	piece/Queen.java	/^public class Queen extends Piece {$/;"	c
+Rook	piece/Rook.java	/^  public Rook(char side) { super(side, 'R'); }$/;"	m	class:Rook
+Rook	piece/Rook.java	/^public class Rook extends Piece {$/;"	c
+board	Board.java	/^  private static Piece board[][] = new Piece[8][8];$/;"	f	class:Board	file:
+checkDiagDirection	piece/Piece.java	/^  private boolean checkDiagDirection(String direction, $/;"	m	class:Piece	file:
+diagonalDashLogic	piece/Piece.java	/^  protected boolean diagonalDashLogic(int fromCoord[], $/;"	m	class:Piece
+gameOver	Game.java	/^  private static boolean gameOver = false;$/;"	f	class:Game	file:
+generateBR	Input.java	/^  public static BufferedReader generateBR(InputStream IS) { return new BufferedReader(generateIS/;"	m	class:Input
+generateISR	Input.java	/^  public static InputStreamReader generateISR(InputStream IS) { return new InputStreamReader(IS)/;"	m	class:Input
+getHorLimit	piece/Piece.java	/^  private int[] getHorLimit(int fromCoord[], Piece board[][]) {$/;"	m	class:Piece	file:
+getKingPos	Player.java	/^  public String getKingPos() {$/;"	m	class:Player
+getName	Player.java	/^  public String getName() { return name; }$/;"	m	class:Player
+getRole	piece/Piece.java	/^  public char getRole() { return role; }$/;"	m	class:Piece
+getSide	Player.java	/^  public char getSide() {$/;"	m	class:Player
+getSide	piece/Piece.java	/^  public char getSide() { return side; }$/;"	m	class:Piece
+getSymbol	Board.java	/^  private static char getSymbol(Piece piece) {$/;"	m	class:Board	file:
+getVerLimit	piece/Piece.java	/^  private int[] getVerLimit(int fromCoord[], Piece board[][]) {$/;"	m	class:Piece	file:
+initBoard	Board.java	/^  public static void initBoard() {$/;"	m	class:Board
+initGame	Game.java	/^  public static void initGame() throws IOException {$/;"	m	class:Game
+initPawn	Board.java	/^  public static void initPawn() {$/;"	m	class:Board
+isCheck	Board.java	/^  public static boolean isCheck(String movedAN, String kingAN) {$/;"	m	class:Board
+isCheck	Game.java	/^  private static boolean isCheck(String movedAN, String enemyKingAN) {$/;"	m	class:Game	file:
+isCheckMated	Board.java	/^  public static boolean isCheckMated(String kingAN) {$/;"	m	class:Board
+isValidMove	Board.java	/^  private static boolean isValidMove(int fromCoord[], $/;"	m	class:Board	file:
+isValidPlayer	Board.java	/^  private static boolean isValidPlayer(char side, Piece target) {$/;"	m	class:Board	file:
+kingPos	Player.java	/^  private String kingPos;$/;"	f	class:Player	file:
+main	Main.java	/^  public static void main(String args[]) {$/;"	m	class:Main
+moveLogic	piece/Bishop.java	/^  public boolean moveLogic(int fromCoord[], $/;"	m	class:Bishop
+moveLogic	piece/King.java	/^  public boolean moveLogic(int fromCoord[], $/;"	m	class:King
+moveLogic	piece/Knight.java	/^  public boolean moveLogic(int fromCoord[], $/;"	m	class:Knight
+moveLogic	piece/Pawn.java	/^  public boolean moveLogic(int fromCoord[], $/;"	m	class:Pawn
+moveLogic	piece/Piece.java	/^  public abstract boolean moveLogic(int fromCoord[], $/;"	m	class:Piece
+moveLogic	piece/Queen.java	/^  public boolean moveLogic(int fromCoord[], $/;"	m	class:Queen
+moveLogic	piece/Rook.java	/^  public boolean moveLogic(int fromCoord[], $/;"	m	class:Rook
+movePiece	Board.java	/^  public static char movePiece(char side, $/;"	m	class:Board
+movePiece	Player.java	/^  public boolean movePiece(String fromAN, String toAN) {$/;"	m	class:Player
+name	Player.java	/^  private String name;$/;"	f	class:Player	file:
+perpedicularDashLogic	piece/Piece.java	/^  protected boolean perpedicularDashLogic(int fromCoord[], $/;"	m	class:Piece
+piece	piece/Bishop.java	/^package piece;$/;"	p
+piece	piece/King.java	/^package piece;$/;"	p
+piece	piece/Knight.java	/^package piece;$/;"	p
+piece	piece/Pawn.java	/^package piece;$/;"	p
+piece	piece/Piece.java	/^package piece;$/;"	p
+piece	piece/Queen.java	/^package piece;$/;"	p
+piece	piece/Rook.java	/^package piece;$/;"	p
+placePiece	Board.java	/^  public static void placePiece(char side, $/;"	m	class:Board
+player1	Game.java	/^  private static Player player1;$/;"	f	class:Game	file:
+player2	Game.java	/^  private static Player player2;$/;"	f	class:Game	file:
+printBoard	Board.java	/^  public static void printBoard() { $/;"	m	class:Board
+role	piece/Piece.java	/^  private char role;$/;"	f	class:Piece	file:
+score	Player.java	/^  private int score = 0;$/;"	f	class:Player	file:
+setKingPos	Player.java	/^  public void setKingPos(String kingPos) {$/;"	m	class:Player
+setPlayerNames	Game.java	/^  private static void setPlayerNames() throws IOException {$/;"	m	class:Game	file:
+side	Player.java	/^  private char side;$/;"	f	class:Player	file:
+side	piece/Piece.java	/^  private char side;$/;"	f	class:Piece	file:
+takeTurn	Game.java	/^  private static void takeTurn() throws IOException {$/;"	m	class:Game	file:
+whiteTurn	Game.java	/^  private static boolean whiteTurn = true;$/;"	f	class:Game	file:

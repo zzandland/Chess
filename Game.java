@@ -8,7 +8,7 @@ public class Game {
 
   public static void initGame() throws IOException {
     setPlayerNames();
-    Board.initBoard();    
+    Board.initBoard();
     player1.setKingPos("D1");
     player2.setKingPos("D8");
 
@@ -19,7 +19,7 @@ public class Game {
 
   private static void setPlayerNames() throws IOException {
     BufferedReader br = Input.generateBR(System.in);
-    
+
     System.out.println("What is White player's name? Type and press return: ");
     player1 = new Player(br.readLine(), 'W');
 
@@ -38,16 +38,18 @@ public class Game {
     } else {
       current = player2;
       opponent = player1;
-    } 
+    }
 
     System.out.println(String.format("It is %s's turn now.", current.getName()));
 
     BufferedReader br = Input.generateBR(System.in);
 
-    System.out.println("Type the algebraic notation of the chess piece you want to move and press return: ");
+    System.out.println(
+        "Type the algebraic notation of the chess piece you want to move and press return: ");
     String fromAN = br.readLine();
 
-    System.out.println("Type the algebraic algebraic notation of the destination and press return: ");
+    System.out.println(
+        "Type the algebraic algebraic notation of the destination and press return: ");
     String toAN = br.readLine();
 
     if (!current.movePiece(fromAN, toAN)) {
@@ -56,7 +58,7 @@ public class Game {
       if (isCheck(toAN, opponent.getKingPos()))
         System.out.println("Check on " + opponent.getName() + "'s King.");
 
-      whiteTurn = !whiteTurn;  
+      whiteTurn = !whiteTurn;
     }
   }
 

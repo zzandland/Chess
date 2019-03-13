@@ -9,18 +9,17 @@ public abstract class Piece {
     this.role = role;
   }
 
-  public char getSide() { return side; }
+  public char getSide() {
+    return side;
+  }
 
-  public char getRole() { return role; }
+  public char getRole() {
+    return role;
+  }
 
-  public abstract boolean moveLogic(int fromCoord[], 
-                                    int toCoord[], 
-                                    Piece board[][]);
+  public abstract boolean moveLogic(int fromCoord[], int toCoord[], Piece board[][]);
 
-  protected boolean perpedicularDashLogic(int fromCoord[], 
-                                          int toCoord[], 
-                                          Piece board[][]) 
-  {
+  protected boolean perpedicularDashLogic(int fromCoord[], int toCoord[], Piece board[][]) {
     if (fromCoord[0] == toCoord[0]) {
       int horLimit[] = getHorLimit(fromCoord, board);
       return (toCoord[1] >= horLimit[0] && toCoord[1] <= horLimit[1]);
@@ -31,14 +30,11 @@ public abstract class Piece {
     return false;
   }
 
-  protected boolean diagonalDashLogic(int fromCoord[], 
-                                      int toCoord[], 
-                                      Piece board[][]) 
-  {
+  protected boolean diagonalDashLogic(int fromCoord[], int toCoord[], Piece board[][]) {
     return checkDiagDirection("NW", fromCoord, toCoord, board)
-      || checkDiagDirection("NE", fromCoord, toCoord, board)
-      || checkDiagDirection("SW", fromCoord, toCoord, board)
-      || checkDiagDirection("SE", fromCoord, toCoord, board);
+        || checkDiagDirection("NE", fromCoord, toCoord, board)
+        || checkDiagDirection("SW", fromCoord, toCoord, board)
+        || checkDiagDirection("SE", fromCoord, toCoord, board);
   }
 
   private int[] getHorLimit(int fromCoord[], Piece board[][]) {
@@ -79,11 +75,8 @@ public abstract class Piece {
     return pair;
   }
 
-  private boolean checkDiagDirection(String direction, 
-                                     int fromCoord[], 
-                                     int toCoord[], 
-                                     Piece board[][]) 
-  {
+  private boolean checkDiagDirection(
+      String direction, int fromCoord[], int toCoord[], Piece board[][]) {
     int i = 1;
     int yOffset, xOffset;
     boolean loopContinue;
@@ -93,7 +86,7 @@ public abstract class Piece {
         case "NW":
           yOffset = fromCoord[0] - i;
           xOffset = fromCoord[1] - i;
-          loopContinue = yOffset >= 0 && xOffset  >= 0;
+          loopContinue = yOffset >= 0 && xOffset >= 0;
           break;
         case "NE":
           yOffset = fromCoord[0] - i;
@@ -108,8 +101,7 @@ public abstract class Piece {
         case "SE":
           yOffset = fromCoord[0] + i;
           xOffset = fromCoord[1] + i;
-          loopContinue = yOffset < board.length 
-            && xOffset < board.length;
+          loopContinue = yOffset < board.length && xOffset < board.length;
           break;
         default:
           yOffset = fromCoord[0];
@@ -120,9 +112,9 @@ public abstract class Piece {
       if (!loopContinue) break;
 
       if (yOffset == toCoord[0] && xOffset == toCoord[1]) {
-        if (board[yOffset][xOffset] == null 
-          || board[yOffset][xOffset].getSide() != getSide())
-        { return true; }
+        if (board[yOffset][xOffset] == null || board[yOffset][xOffset].getSide() != getSide()) {
+          return true;
+        }
         return false;
       }
 
