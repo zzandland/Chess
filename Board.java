@@ -6,8 +6,10 @@ public class Board {
   public static void printBoard() {
     System.out.println("       A      B      C      D      E      F      G      H");
     System.out.println("\n  ||======|======|======|======|======|======|======|======||\n");
+
     for (int i = board.length - 1; i >= 0; i--) {
       System.out.print(i + 1 + " ||");
+
       for (Piece piece : board[i]) {
         if (piece != null) {
           System.out.print(String.format("  %c   ", getSymbol(piece)));
@@ -59,22 +61,27 @@ public class Board {
         King king = new King(side);
         board[coord[0]][coord[1]] = king;
         break;
+
       case 'Q':
         Queen queen = new Queen(side);
         board[coord[0]][coord[1]] = queen;
         break;
+
       case 'R':
         Rook rook = new Rook(side);
         board[coord[0]][coord[1]] = rook;
         break;
+
       case 'B':
         Bishop bishop = new Bishop(side);
         board[coord[0]][coord[1]] = bishop;
         break;
+
       case 'H':
         Knight knight = new Knight(side);
         board[coord[0]][coord[1]] = knight;
         break;
+
       case 'P':
         Pawn pawn = new Pawn(side);
         board[coord[0]][coord[1]] = pawn;
@@ -88,15 +95,17 @@ public class Board {
     Piece target = board[fromCoord[0]][fromCoord[1]];
 
     // the selected AN cannot be empty nor same to desired AN
-    if (target == null || fromAN.equals(toAN)) return 'N';
+    if ((target == null) || fromAN.equals(toAN)) return 'N';
 
     // if the toCoord is out of index boundary invalid move
-    if (toCoord[0] > 7 || toCoord[0] < 0 || toCoord[1] > 7 || toCoord[1] < 0) return 'N';
+    if ((toCoord[0] > 7) || (toCoord[0] < 0) || (toCoord[1] > 7) || (toCoord[1] < 0)) return 'N';
 
     if (isValidPlayer(side, target) && isValidMove(fromCoord, toCoord, target)) {
       board[fromCoord[0]][fromCoord[1]] = null;
       board[toCoord[0]][toCoord[1]] = target;
+
       if (target.getRole() == 'K') return 'K';
+
       return 'Y';
     }
     return 'N';
@@ -107,34 +116,42 @@ public class Board {
     int kingCoord[] = ANtoCoords(kingAN);
 
     Piece piece = board[movedCoord[0]][movedCoord[1]];
+
     return isValidMove(movedCoord, kingCoord, piece);
   }
 
   public static boolean isCheckMated(String kingAN) {
     int kingCoord[] = ANtoCoords(kingAN);
     Piece king = board[kingCoord[0]][kingCoord[1]];
+
     return true;
   }
 
   private static char getSymbol(Piece piece) {
     char symbol = ' ';
+
     if (piece.getSide() == 'W') {
       switch (piece.getRole()) {
         case 'K':
           symbol = '♔';
           break;
+
         case 'Q':
           symbol = '♕';
           break;
+
         case 'R':
           symbol = '♖';
           break;
+
         case 'B':
           symbol = '♗';
           break;
+
         case 'H':
           symbol = '♘';
           break;
+
         case 'P':
           symbol = '♙';
           break;
@@ -144,18 +161,23 @@ public class Board {
         case 'K':
           symbol = '♚';
           break;
+
         case 'Q':
           symbol = '♛';
           break;
+
         case 'R':
           symbol = '♜';
           break;
+
         case 'B':
           symbol = '♝';
           break;
+
         case 'H':
           symbol = '♞';
           break;
+
         case 'P':
           symbol = '♟';
           break;
@@ -174,6 +196,7 @@ public class Board {
 
   private static boolean isValidPlayer(char side, Piece target) {
     if (target.getSide() == side) return true;
+
     System.out.println("That is not your piece. Please try again.\n");
     return false;
   }
@@ -183,6 +206,7 @@ public class Board {
     int ranks = Integer.parseInt(String.valueOf(chars[1])) - 1;
     int files = Character.toLowerCase(chars[0]) - 'a';
     int coord[] = {ranks, files};
+
     return coord;
   }
 }

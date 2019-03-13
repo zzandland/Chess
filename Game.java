@@ -32,6 +32,7 @@ public class Game {
 
     Player current, opponent;
     String sideName;
+
     if (whiteTurn) {
       current = player1;
       opponent = player2;

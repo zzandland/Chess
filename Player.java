@@ -29,6 +29,7 @@ public class Player {
 
   public boolean movePiece(String fromAN, String toAN) {
     char result = Board.movePiece(side, fromAN, toAN);
+
     if (result != 'N') {
       if (result == 'K') kingPos = toAN;
       return true;
