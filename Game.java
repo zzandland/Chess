@@ -1,14 +1,19 @@
 import java.io.*;
 
 public class Game {
-  private static boolean gameOver = false;
-  private static boolean whiteTurn = true;
-  private static Player player1;
-  private static Player player2;
+  private boolean gameOver = false;
+  private boolean whiteTurn = true;
+  private Player player1;
+  private Player player2;
+  private Board board;
 
-  public static void initGame() throws IOException {
+  public Game() throws IOException {
     setPlayerNames();
-    Board.initBoard();
+    board = new Board();
+  }
+
+  public void initGame() throws IOException {
+    board.initBoard();
     player1.setKingPos("D1");
     player2.setKingPos("D8");
 
@@ -17,7 +22,7 @@ public class Game {
     }
   }
 
-  private static void setPlayerNames() throws IOException {
+  private void setPlayerNames() throws IOException {
     BufferedReader br = Input.generateBR(System.in);
 
     System.out.println("What is White player's name? Type and press return: ");
@@ -27,8 +32,8 @@ public class Game {
     player2 = new Player(br.readLine(), 'B');
   }
 
-  private static void takeTurn() throws IOException {
-    Board.printBoard();
+  private void takeTurn() throws IOException {
+    board.printBoard();
 
     Player current, opponent;
     String sideName;
@@ -53,7 +58,7 @@ public class Game {
         "Type the algebraic algebraic notation of the destination and press return: ");
     String toAN = br.readLine();
 
-    if (!current.movePiece(fromAN, toAN)) {
+    if (!current.movePiece(fromAN, toAN, board)) {
       takeTurn();
     } else {
       if (isCheck(toAN, opponent.getKingPos()))
@@ -63,7 +68,7 @@ public class Game {
     }
   }
 
-  private static boolean isCheck(String movedAN, String enemyKingAN) {
-    return Board.isCheck(movedAN, enemyKingAN);
+  private boolean isCheck(String movedAN, String enemyKingAN) {
+    return board.isCheck(movedAN, enemyKingAN);
   }
 }

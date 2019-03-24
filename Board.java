@@ -1,9 +1,9 @@
 import piece.*;
 
 public class Board {
-  private static Piece board[][] = new Piece[8][8];
+  private Piece board[][] = new Piece[8][8];
 
-  public static void printBoard() {
+  public void printBoard() {
     System.out.println("       A      B      C      D      E      F      G      H");
     System.out.println("\n  ||======|======|======|======|======|======|======|======||\n");
 
@@ -24,7 +24,7 @@ public class Board {
     System.out.println("\n\n");
   }
 
-  public static void initBoard() {
+  public void initBoard() {
     board = new Piece[8][8];
     initPawn();
     placePiece('W', 'K', "D1");
@@ -45,7 +45,7 @@ public class Board {
     placePiece('B', 'H', "G8");
   }
 
-  public static void initPawn() {
+  public void initPawn() {
     for (int i = 65; i < 73; i++) {
       char ranks = (char) i;
       placePiece('W', 'P', ranks + "2");
@@ -53,43 +53,38 @@ public class Board {
     }
   }
 
-  public static void placePiece(char side, char role, String AN) {
+  public void placePiece(char side, char role, String AN) {
     int coord[] = ANtoCoords(AN);
 
     switch (role) {
       case 'K':
-        King king = new King(side);
+        King king = new King(side, coord);
         board[coord[0]][coord[1]] = king;
         break;
-
       case 'Q':
-        Queen queen = new Queen(side);
+        Queen queen = new Queen(side, coord);
         board[coord[0]][coord[1]] = queen;
         break;
-
       case 'R':
-        Rook rook = new Rook(side);
+        Rook rook = new Rook(side, coord);
         board[coord[0]][coord[1]] = rook;
         break;
-
       case 'B':
-        Bishop bishop = new Bishop(side);
+        Bishop bishop = new Bishop(side, coord);
         board[coord[0]][coord[1]] = bishop;
         break;
-
       case 'H':
-        Knight knight = new Knight(side);
+        Knight knight = new Knight(side, coord);
         board[coord[0]][coord[1]] = knight;
         break;
-
       case 'P':
-        Pawn pawn = new Pawn(side);
+        Pawn pawn = new Pawn(side, coord);
         board[coord[0]][coord[1]] = pawn;
         break;
     }
   }
 
-  public static char movePiece(char side, String fromAN, String toAN) {
+  public char movePiece(char side, String fromAN, String toAN) {
     int fromCoord[] = ANtoCoords(fromAN);
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
@@ -100,9 +95,10 @@ public class Board {
     // if the toCoord is out of index boundary invalid move
     if ((toCoord[0] > 7) || (toCoord[0] < 0) || (toCoord[1] > 7) || (toCoord[1] < 0)) return 'N';
 
-    if (isValidPlayer(side, target) && isValidMove(fromCoord, toCoord, target)) {
+    if (isValidPlayer(side, target) && isValidMove(toCoord, target)) {
       board[fromCoord[0]][fromCoord[1]] = null;
       board[toCoord[0]][toCoord[1]] = target;
+      target.setCoord(toCoord);
 
       if (target.getRole() == 'K') return 'K';
 
@@ -111,23 +107,34 @@ public class Board {
     return 'N';
   }
 
-  public static boolean isCheck(String movedAN, String kingAN) {
+  private boolean isValidPlayer(char side, Piece target) {
+    if (target.getSide() == side) return true;
+    return false;
+  }
+
+  private boolean isValidMove(int[] toCoord, Piece target) {
+    if (target.moveLogic(toCoord, board)) return true;
+    return false;
+  }
+
+  public boolean isCheck(String movedAN, String kingAN) {
     int movedCoord[] = ANtoCoords(movedAN);
     int kingCoord[] = ANtoCoords(kingAN);
 
     Piece piece = board[movedCoord[0]][movedCoord[1]];
 
-    return isValidMove(movedCoord, kingCoord, piece);
+    return isValidMove(kingCoord, piece);
   }
 
-  public static boolean isCheckMated(String kingAN) {
-    int kingCoord[] = ANtoCoords(kingAN);
-    Piece king = board[kingCoord[0]][kingCoord[1]];
+  // TODO: Need to implement checkmate caluclation
+  // public boolean isCheckmate(String kingAN) {
+  // int kingCoord[] = ANtoCoords(kingAN);
 
-    return true;
-  }
+  // King king = (King) board[kingCoord[0]][kingCoord[1]];
+  // king.checkmatePos(kingCoord);
+  // }
 
-  private static char getSymbol(Piece piece) {
+  private char getSymbol(Piece piece) {
     char symbol = ' ';
 
     if (piece.getSide() == 'W') {
@@ -135,23 +142,18 @@ public class Board {
         case 'K':
           symbol = '♔';
           break;
-
         case 'Q':
           symbol = '♕';
           break;
-
         case 'R':
           symbol = '♖';
           break;
-
         case 'B':
           symbol = '♗';
           break;
-
         case 'H':
           symbol = '♘';
           break;
-
         case 'P':
           symbol = '♙';
           break;
@@ -161,44 +163,24 @@ public class Board {
         case 'K':
           symbol = '♚';
           break;
-
         case 'Q':
           symbol = '♛';
           break;
-
         case 'R':
           symbol = '♜';
           break;
-
         case 'B':
           symbol = '♝';
           break;
-
         case 'H':
           symbol = '♞';
           break;
-
         case 'P':
           symbol = '♟';
           break;
       }
     }
     return symbol;
-  }
-
-  private static boolean isValidMove(int fromCoord[], int toCoord[], Piece target) {
-    if (target.moveLogic(fromCoord, toCoord, board)) {
-      return true;
-    }
-    System.out.println("Invalid move. Please try again.\n");
-    return false;
-  }
-
-  private static boolean isValidPlayer(char side, Piece target) {
-    if (target.getSide() == side) return true;
-
-    System.out.println("That is not your piece. Please try again.\n");
-    return false;
   }
 
   private static int[] ANtoCoords(String AN) {

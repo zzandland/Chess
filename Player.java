@@ -27,13 +27,14 @@ public class Player {
     return side;
   }
 
-  public boolean movePiece(String fromAN, String toAN) {
-    char result = Board.movePiece(side, fromAN, toAN);
+  public boolean movePiece(String fromAN, String toAN, Board board) {
+    char result = board.movePiece(side, fromAN, toAN);
 
     if (result != 'N') {
       if (result == 'K') kingPos = toAN;
       return true;
     }
+    System.out.println("Invalid move. Please try again.");
     return false;
   }
 }
