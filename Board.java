@@ -24,67 +24,69 @@ public class Board {
     System.out.println("\n\n");
   }
 
-  public void initBoard() {
+  public void initBoard(Player player1, Player player2) {
     board = new Piece[8][8];
-    initPawn();
-    placePiece('W', 'K', "D1");
-    placePiece('B', 'K', "D8");
-    placePiece('W', 'Q', "E1");
-    placePiece('B', 'Q', "E8");
-    placePiece('W', 'R', "A1");
-    placePiece('W', 'R', "H1");
-    placePiece('B', 'R', "A8");
-    placePiece('B', 'R', "H8");
-    placePiece('W', 'B', "C1");
-    placePiece('W', 'B', "F1");
-    placePiece('B', 'B', "C8");
-    placePiece('B', 'B', "F8");
-    placePiece('W', 'H', "B1");
-    placePiece('W', 'H', "G1");
-    placePiece('B', 'H', "B8");
-    placePiece('B', 'H', "G8");
+    initPawn(player1, player2);
+    placePiece('W', 'K', "E1", player1);
+    placePiece('W', 'Q', "D1", player1);
+    placePiece('W', 'R', "A1", player1);
+    placePiece('W', 'R', "H1", player1);
+    placePiece('W', 'B', "C1", player1);
+    placePiece('W', 'B', "F1", player1);
+    placePiece('W', 'H', "B1", player1);
+    placePiece('W', 'H', "G1", player1);
+    placePiece('B', 'K', "E8", player2);
+    placePiece('B', 'Q', "D8", player2);
+    placePiece('B', 'R', "A8", player2);
+    placePiece('B', 'R', "H8", player2);
+    placePiece('B', 'B', "C8", player2);
+    placePiece('B', 'B', "F8", player2);
+    placePiece('B', 'H', "B8", player2);
+    placePiece('B', 'H', "G8", player2);
   }
 
-  public void initPawn() {
+  public void initPawn(Player player1, Player player2) {
     for (int i = 65; i < 73; i++) {
       char ranks = (char) i;
-      placePiece('W', 'P', ranks + "2");
-      placePiece('B', 'P', ranks + "7");
+      placePiece('W', 'P', ranks + "2", player1);
+      placePiece('B', 'P', ranks + "7", player2);
     }
   }
 
-  public void placePiece(char side, char role, String AN) {
+  public void placePiece(char side, char role, String AN, Player player) {
     int coord[] = ANtoCoords(AN);
+    Piece piece = null;
 
     switch (role) {
       case 'K':
-        King king = new King(side, coord);
-        board[coord[0]][coord[1]] = king;
+        piece = new King(side, coord);
+        board[coord[0]][coord[1]] = piece;
         break;
       case 'Q':
-        Queen queen = new Queen(side, coord);
-        board[coord[0]][coord[1]] = queen;
+        piece = new Queen(side, coord);
+        board[coord[0]][coord[1]] = piece;
         break;
       case 'R':
-        Rook rook = new Rook(side, coord);
-        board[coord[0]][coord[1]] = rook;
+        piece = new Rook(side, coord);
+        board[coord[0]][coord[1]] = piece;
         break;
       case 'B':
-        Bishop bishop = new Bishop(side, coord);
-        board[coord[0]][coord[1]] = bishop;
+        piece = new Bishop(side, coord);
+        board[coord[0]][coord[1]] = piece;
         break;
       case 'H':
-        Knight knight = new Knight(side, coord);
-        board[coord[0]][coord[1]] = knight;
+        piece = new Knight(side, coord);
+        board[coord[0]][coord[1]] = piece;
         break;
       case 'P':
-        Pawn pawn = new Pawn(side, coord);
-        board[coord[0]][coord[1]] = pawn;
+        piece = new Pawn(side, coord);
+        board[coord[0]][coord[1]] = piece;
         break;
     }
+    player.insertToSet(piece);
   }
 
-  public char movePiece(char side, String fromAN, String toAN) {
+  public char movePiece(char side, String fromAN, String toAN, Player opponent) {
     int fromCoord[] = ANtoCoords(fromAN);
     int toCoord[] = ANtoCoords(toAN);
     Piece target = board[fromCoord[0]][fromCoord[1]];
@@ -93,18 +95,26 @@ public class Board {
     if ((target == null) || fromAN.equals(toAN)) return 'N';
 
     // if the toCoord is out of index boundary invalid move
-    if ((toCoord[0] > 7) || (toCoord[0] < 0) || (toCoord[1] > 7) || (toCoord[1] < 0)) return 'N';
+    if (outOfValidRange(toCoord)) return 'N';
 
-    if (isValidPlayer(side, target) && isValidMove(toCoord, target)) {
+    if (isValidPlayer(side, target) && isValidMove(target, toCoord)) {
       board[fromCoord[0]][fromCoord[1]] = null;
+      Piece deadPiece = board[toCoord[0]][toCoord[1]];
+      if (deadPiece != null) opponent.removeFromSet(deadPiece);
       board[toCoord[0]][toCoord[1]] = target;
       target.setCoord(toCoord);
 
       if (target.getRole() == 'K') return 'K';
 
+      if (target.getRole() == 'P') ((Pawn) target).markMoved();
+
       return 'Y';
     }
     return 'N';
+  }
+
+  private boolean outOfValidRange(int[] coord) {
+    return ((coord[0] > 7) || (coord[0] < 0) || (coord[1] > 7) || (coord[1] < 0));
   }
 
   private boolean isValidPlayer(char side, Piece target) {
@@ -112,27 +122,60 @@ public class Board {
     return false;
   }
 
-  private boolean isValidMove(int[] toCoord, Piece target) {
-    if (target.moveLogic(toCoord, board)) return true;
-    return false;
+  public boolean isValidMove(Piece target, int[] toCoord) {
+    if (outOfValidRange(toCoord)) return false;
+    return target.moveLogic(toCoord, board);
   }
 
-  public boolean isCheck(String movedAN, String kingAN) {
-    int movedCoord[] = ANtoCoords(movedAN);
-    int kingCoord[] = ANtoCoords(kingAN);
-
-    Piece piece = board[movedCoord[0]][movedCoord[1]];
-
-    return isValidMove(kingCoord, piece);
+  public boolean isCheckMated(Player opponent, int[] kingCoord) {
+    return checkmateDirection(kingCoord, 0, opponent)
+        && checkmateDirection(kingCoord, 45, opponent)
+        && checkmateDirection(kingCoord, 90, opponent)
+        && checkmateDirection(kingCoord, 135, opponent)
+        && checkmateDirection(kingCoord, 180, opponent)
+        && checkmateDirection(kingCoord, 225, opponent)
+        && checkmateDirection(kingCoord, 270, opponent)
+        && checkmateDirection(kingCoord, 315, opponent);
   }
 
-  // TODO: Need to implement checkmate caluclation
-  // public boolean isCheckmate(String kingAN) {
-  // int kingCoord[] = ANtoCoords(kingAN);
+  private boolean checkmateDirection(int[] kingCoord, int degree, Player opponent) {
+    Piece king = board[kingCoord[0]][kingCoord[1]];
+    int[] potentialCoord = getEightDirections(kingCoord, degree);
+    if (!isValidMove(king, potentialCoord)) return true;
+    
+    return (opponent.iterateSetForValidMovement(potentialCoord, this) != null);
+  }
 
-  // King king = (King) board[kingCoord[0]][kingCoord[1]];
-  // king.checkmatePos(kingCoord);
-  // }
+  private int[] getEightDirections(int[] coord, int degree) {
+    int[] output = {coord[0], coord[1]};
+    switch (degree) {
+      case 0:
+        output = new int[] {coord[0] - 1, coord[1]};
+        break;
+      case 45:
+        output = new int[] {coord[0] - 1, coord[1] + 1};
+        break;
+      case 90:
+        output = new int[] {coord[0], coord[1] + 1};
+        break;
+      case 135:
+        output = new int[] {coord[0] + 1, coord[1] + 1};
+        break;
+      case 180:
+        output = new int[] {coord[0] + 1, coord[1]};
+        break;
+      case 225:
+        output = new int[] {coord[0] + 1, coord[1] - 1};
+        break;
+      case 270:
+        output = new int[] {coord[0], coord[1] - 1};
+        break;
+      case 315:
+        output = new int[] {coord[0] - 1, coord[1] - 1};
+        break;
+    }
+    return output;
+  }
 
   private char getSymbol(Piece piece) {
     char symbol = ' ';
@@ -183,7 +226,7 @@ public class Board {
     return symbol;
   }
 
-  private static int[] ANtoCoords(String AN) {
+  public static int[] ANtoCoords(String AN) {
     char chars[] = AN.toCharArray();
     int ranks = Integer.parseInt(String.valueOf(chars[1])) - 1;
     int files = Character.toLowerCase(chars[0]) - 'a';

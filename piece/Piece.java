@@ -19,8 +19,8 @@ public abstract class Piece {
     return role;
   }
 
-  public void print() {
-    System.out.println(coord[0] + ":" + coord[1]);
+  public int[] getCoord() {
+    return coord;
   }
 
   public void setCoord(int[] coord) {
